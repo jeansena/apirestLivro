@@ -1,0 +1,56 @@
+##configuraçao do cors de forma globoal para esse endereço
+## http:localhost:3000 -- esse pertence ao angular
+##http://localhost:8080 -- esse e o local remoto da aplicaçao
+##https://erudio.com.br -- esse exemplo de site que vai ter acesso a api
+#tem configuracão da pasta config -- WebConfig
+cors:
+  originPatterns: http://localhost:3000,http://localhost:8080,https://erudio.com.br
+
+#porta docker alterada de 8080 para 80
+server:
+  port: 8080
+
+  #upload e dawnload
+  # o diretorio ou caminho aonde vai salvar os arquivos
+file:
+   upload-dir: /home/ubuntu/uploadDir # caminho aonde guarda no caso local
+
+##Security
+security:
+  jwt:
+    token:
+      secret-key: 53cr37
+      expire-length: 3600000 #equivale 1hrs para expirar
+
+##conerção com o banco de dado mysql
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/rest_pessoa_2024?useTimezone=true&serverTimezone=UTC
+    username: root
+    password: admin123
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+   #properties:
+      hibernate:
+       dialect: org.hibernate.dialect.MySQL8Dialect
+    show-sql: false
+
+    #upload e dawnload
+    servlet:
+      multipart:
+        enabled: true
+        file-size-threshold: 2KB #ocupação em memoria
+        max-file-size: 200MB #tamanho maximo do arquivo
+        max-request-size: 215MB #tamanho maximo do arquivo
+
+  ## swagger -iu
+  ##caminho da api mesmo do controller **- varias
+  springdoc:
+    pathsToMatch:
+      - /auth/**
+      - /api/**/v1/**
+    swagger-iu:
+      use-root-path: true
